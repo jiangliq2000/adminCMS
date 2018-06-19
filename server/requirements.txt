@@ -1,0 +1,6 @@
+peewee
+pymysql
+flask
+flask-JWT
+faker
+flask_login
