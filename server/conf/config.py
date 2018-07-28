@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -8,9 +9,10 @@ class Config:
     DB_HOST = '192.168.163.128'
     DB_USER = 'root'
     DB_PASSWD = '1'
-    DB_DATABASE = 'testcms'
+    DB_DATABASE = 'test'
     ITEMS_PER_PAGE = 10
     JWT_AUTH_URL_RULE = '/api/v1/users/login'
+    JWT_EXPIRATION_DELTA = timedelta(days=1)
 
     @staticmethod
     def init_app(app):

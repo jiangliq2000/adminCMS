@@ -19,7 +19,9 @@ class Student(Base.BaseModel):
     nickname = CharField()
     name = CharField()
     sex  = IntegerField()
-    province = CharField() 
+    province = CharField()
+    city = CharField()
+    country = CharField()
     urgent_contactor = CharField()
     urgent_mobile = CharField()
     birthday = DateField(default='1970-01-01')
@@ -52,6 +54,26 @@ def SearchStudentByUid(uid):
     r = utils.Decimal2Str(r)
     return r
 
+
+def GetStdInfoById(sid):
+    stdinfo = dict()
+    record = Student.get_or_none(Student.id == sid, Student.status == STATUS_VALID)
+    if record:
+        r = model_to_dict(record)
+        r = utils.Time2Str(r)
+        r = utils.Decimal2Str(r)
+        stdinfo['name'] = r['name']
+        stdinfo['uid'] = r['uid']
+        stdinfo['id'] = r['id']
+        stdinfo['nickname'] = r['nickname']
+        stdinfo['sex'] = r['sex']
+        stdinfo['urgent_contactor'] = r['urgent_contactor']
+        stdinfo['urgent_mobile'] = r['urgent_mobile']
+        stdinfo['birthday'] = r['birthday']
+
+    return stdinfo
+
+
 def SearchStudentByName(page_num, item_per_page,name):
     count = Student.select().where(Student.name == name, Student.status == STATUS_VALID).count()
     students = []
@@ -63,6 +85,19 @@ def SearchStudentByName(page_num, item_per_page,name):
         students.append(m)
 
     return count, students
+
+def GetStudentsInfoByName(name):
+    stdsInfo = []
+    for mem in Student.select().where(Student.name == name, Student.status == STATUS_VALID).order_by(Student.id):
+        m = model_to_dict(mem)
+        m = utils.Time2Str(m)
+        m = utils.Decimal2Str(m)
+        std_name_mobile = m['name'] + '_' + m['urgent_mobile']
+        stdInfo = {'value':m['id'], 'label':std_name_mobile }
+        stdsInfo.append(stdInfo)
+
+    return stdsInfo
+
 
 # create student 
 def CreateStudent(mDict):

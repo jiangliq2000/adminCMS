@@ -14,8 +14,8 @@ STATUS_INVALID = 0
 
 
 
-db = MySQLDatabase(host='192.168.163.128', user='root', passwd='1', database='test', charset='utf8')
-
+#db = MySQLDatabase(host='192.168.163.128', user='root', passwd='1', database='test', charset='utf8')
+db = MySQLDatabase(host='sh-cdb-j421jq38.sql.tencentcdb.com', port=63471,  user='root', passwd='Joyfulkid123', database='joy_userdb', charset='utf8')
 
 class BaseModel(Model):
     class Meta:
@@ -38,16 +38,20 @@ class Student(BaseModel):
         db_table = 'student' 
 
     uid = CharField()
-    name = CharField()
     nickname = CharField()
+    name = CharField()    
     sex  = IntegerField() 
+    province = CharField()
+    city = CharField()
+    country = CharField()
     urgent_contactor = CharField()
     urgent_mobile = CharField()
     birthday = DateField(default='1970-01-01')
     education = CharField()    
     image_url = CharField()
     mentor_id = CharField()
-    c_time = DateTimeField()
+    detailed = CharField()
+    createtime = DateTimeField()
     status = IntegerField(default=STATUS_VALID)
 
 

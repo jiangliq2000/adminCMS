@@ -11,7 +11,7 @@ export default {
     return API.GET('/api/v1/members', params)
   },
 
-  //查询获取一条book信息
+  //查询获取单个会员信息
   findById: id => {
     return API.GET(`/api/v1/members/${id}`)
   },
@@ -23,7 +23,7 @@ export default {
     return API.PUT(`/api/v1/members/${id}`, params)
   },
 
-  //单个删除book
+  //单个删除会员
   remove: id => {
     return API.DELETE(`/api/v1/members/${id}`)
   },

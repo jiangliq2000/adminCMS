@@ -3,6 +3,9 @@ from flask import request
 from . import rest
 from app import utils
 from app.model import Member as MemberModel
+from app.model import Studentguarder as StdGuarderModel
+from app.model import Student as StdModel
+from app.model import Teacher as TeacherModel
 import logging, datetime
 from logging.config import fileConfig
 fileConfig('conf/log-app.conf')
@@ -16,14 +19,23 @@ logger = logging.getLogger(__name__)
 @rest.route('members/', methods=['GET'])
 @jwt_required()
 def get_members():
-    print("recevie get all members requests")
     limit = int(request.args.get('limit'))
     page = int(request.args.get('page'))
     name = request.args.get('name')
     if name:
         total, members = MemberModel.SearchMemberByName(page, limit, name)
     else:
-        total, members = MemberModel.GetMembers(page, limit)
+        total, members = MemberModel.GetMembers(page, limit)  
+    # get relation student information
+    for i in range(len(members)):
+        members[i]['studentInfo'] = []
+        #query student according members[i]['id']
+        stdids = StdGuarderModel.GetStdIdByMemid(members[i]['id'])
+        if stdids:
+            for sid in stdids:
+                # get student information
+                stdinfo = StdModel.GetStdInfoById(sid)
+                members[i]['studentInfo'].append(stdinfo)
     return utils.jsonresp(jsonobj={'total':total, 'limit':limit, 'members':members})
 
 
@@ -50,12 +62,7 @@ def create_member():
 @rest.route('members/<nickname>', methods=['PUT'])
 @jwt_required()
 def update_member(nickname):
-    print(datetime.datetime.now())
-    print('request put request')
-    print(datetime.datetime.now())
     data = request.get_json(force=True) 
-    print(datetime.datetime.now())
-    print(data)
     #dataDict = utils.str_to_dict(rm.get_dict())
     errcode = MemberModel.UpdateMemberById(data)
 

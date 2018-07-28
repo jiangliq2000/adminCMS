@@ -6,15 +6,28 @@ import * as API from './'
 
 export default {
 
-  //查询获取book列表(通过page分页)
+  //查询获取学生列表(通过page分页)
   findList: params => {
     return API.GET('/api/v1/students', params)
   },
 
-  //查询获取一条book信息
+  //查询获取一个学生信息
   findById: id => {
     return API.GET(`/api/v1/students/${id}`)
   },
+
+
+  //获取一个学生信息根据学生记录的id
+  findBySid: sid => {
+    return API.GET(`/api/v1/students/stdinfo/id/${sid}`)
+  },
+
+
+  //查询获取关联学生信息
+  findByName: name => {
+    return API.GET(`/api/v1/students/stdinfo/${name}`)
+  },
+
 
   add: params => {
     return API.POST(`/api/v1/students`, params)

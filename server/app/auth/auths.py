@@ -13,6 +13,7 @@ class Auth():
 
     def authenticate(self, username, password):
         user = Administrator.GetRecordByUsername(username)
+        print(username + " " + password)
         if user is None:
             self.error_handler('cannot find user')
         else:

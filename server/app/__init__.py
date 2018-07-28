@@ -5,6 +5,7 @@ import logging
 from logging.config import fileConfig
 import os
 from app.model.Base import db_wrapper
+from app.model.CourseDBBase import dbcourse_wrapper
 
 fileConfig('conf/log-app.conf')
 
@@ -24,8 +25,9 @@ def get_config():
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
-    app.config['DATABASE'] = 'mysql://root:1@192.168.163.128/testcms'
+
     db_wrapper.init_app(app)
+    dbcourse_wrapper.init_app(app)
     app.url_map.strict_slashes = False
     config[config_name].init_app(app)
 
@@ -41,5 +43,17 @@ def create_app(config_name):
 
     from .rest import rest as rest_blueprint
     app.register_blueprint(rest_blueprint,url_prefix='/api/v1')
+
+    #from .auth import auth as auth_blueprint
+    #app.register_blueprint(auth_blueprint,url_prefix='/auth')
+    
+    """
+    from .member import member as member_blueprint
+    app.register_blueprint(member_blueprint, url_prefix='/api/v1/members')
+
+    from .student import student as student_blueprint
+    app.register_blueprint(student_blueprint, url_prefix='/api/v1/students')
+    """
+
 
     return app

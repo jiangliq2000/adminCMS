@@ -2,7 +2,7 @@
 import json
 from playhouse.flask_utils import FlaskDB
 
-db_wrapper = FlaskDB()
+dbcourse_wrapper = FlaskDB(database='mysql://root:password@databaseip:port/database_instance1')
 
 STATUS_VALID = 1
 STATUS_INVALID = 0

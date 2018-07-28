@@ -8,8 +8,7 @@ import json
 from mocks import member as memberMock
 from playhouse.shortcuts import model_to_dict, dict_to_model
 
-db = MySQLDatabase(host='192.168.163.128', user='root', passwd='1', database='test', charset='utf8')
-
+db = MySQLDatabase(host='sh-cdb-j421jq38.sql.tencentcdb.com', port=63471,  user='root', passwd='Joyfulkid123', database='joy_userdb', charset='utf8')
 
 class BaseModel(Model):
     class Meta:

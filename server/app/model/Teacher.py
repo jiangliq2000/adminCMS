@@ -17,20 +17,23 @@ class Teacher(Base.BaseModel):
 
     name = CharField()
     password = CharField()
-    options = CharField()
-    nickname = CharField()
+    options = CharField(default='')
+    nickname = CharField(default='')
     sex  = IntegerField() 
     province = CharField()
     city = CharField()
     country = CharField()
+    address = CharField()
     mobile = CharField()
-    email = CharField()
-    #address = CharField()
+    email = CharField()    
     birthday = DateField(default='1970-01-01')
     education = CharField()
     school_id = IntegerField()
-    image_url = CharField()
+    image_url = CharField(default='')
     createtime = DateTimeField(default=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    effectivetime = DateTimeField()
+    type = IntegerField(default=1)
+    level = CharField(default='')
     status = IntegerField(default=STATUS_VALID)
 
 
@@ -55,12 +58,31 @@ def GetTeachers(page_num, item_per_page):
     return count, teachers
 
 
-def SearchTeacherById(nickname):
+def GetTeacherInfosByName(name):
+    teacherinfos = []
+    for teacher in Teacher.select().where(Teacher.name.contains(name), Teacher.status == STATUS_VALID):
+        teacher = model_to_dict(teacher)
+        #teacher = utils.Time2Str(teacher)
+        #teacher = utils.Decimal2Str(teacher)
+        teacherinfos.append({'id':teacher['id'],'name':teacher['name'],'mobile':teacher['mobile']})
+
+    return teacherinfos
+
+
+def SearchTeacherByNickname(nickname):
     mem = Teacher.get_or_none(Teacher.nickname == nickname, Teacher.status == STATUS_VALID)
     m = model_to_dict(mem)
     m = utils.Time2Str(m)
     m = utils.Decimal2Str(m)
     return m
+
+def SearchTeacherById(tid):
+    teacher = Teacher.get_or_none(Teacher.id == tid, Teacher.status == STATUS_VALID)
+    if teacher:
+        teacher = model_to_dict(teacher)
+        teacher = utils.Time2Str(teacher)
+        teacher = utils.Decimal2Str(teacher)
+    return teacher
 
 def SearchTeacherByMobile(mobile):
     m = Teacher.get_or_none(Teacher.mobile == mobile, Teacher.status == STATUS_VALID)
@@ -69,7 +91,6 @@ def SearchTeacherByMobile(mobile):
         m = utils.Time2Str(m)
         m = utils.Decimal2Str(m)
     return m
-
 
 def SearchTeacherByName(page_num, item_per_page,name):
     count = Teacher.select().where(Teacher.name == name, Teacher.status == STATUS_VALID).count()
@@ -112,40 +133,3 @@ def DeleteTeacherByNickname(nickname,status=STATUS_INVALID):
 
 if __name__ == '__main__':
     pass
-    """
-    create_table()
-    for i in range(15):
-        Insertteacher()
-    #InsertTeacher()
-    #InsertUser()
-
-    #for i in range(1,4):
-    #    Getteachers(i, 5)
-     
-    # query teacher by teacher id
-    mem = SearchteacherById(901527124)
-    if mem:
-        #print(mem)
-        print('%d'%mem.id + "  " + mem.name)
-    else:
-        print("cannot find this teacher")
-
-
-    # query teacher by memmber name, there may exit many records
-    memList = SearchteacherByName('孙宇')
-    if memList:
-        for mem in memList:
-            print("id: %d"%mem.id + "  teacherid:%d"%mem.teacherid + "  name:" + mem.name)
-    else:
-        print("cannot find any records")
-
-    # delete a teacher
-    #DeleteteacherById(45481440)
-
-
-    # update a memeber  
-    #UpdateteacherById(92596066)
-    count, memItems = Getteachers(1, 5) 
-    print("total is : %d"%count)
-    print(memItems)   
-    """

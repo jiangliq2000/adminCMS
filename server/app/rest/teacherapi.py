@@ -28,7 +28,7 @@ def get_teachers():
 
 
 # query one teacher
-@rest.route('teachers/<mobile>', methods=['GET'])
+@rest.route('teachers/mobile/<mobile>', methods=['GET'])
 @jwt_required()
 def get_teacher(mobile):
     teachers = []
@@ -36,6 +36,22 @@ def get_teacher(mobile):
     if teacher:
         teachers.append(teacher)
     return utils.jsonresp(jsonobj={'teachers':teachers})
+
+
+# query one teacher  by table id 
+@rest.route('teachers/id/<tid>', methods=['GET'])
+@jwt_required()
+def GetTeacherById(tid):
+    return utils.jsonresp(jsonobj={'teacher':TeacherModel.SearchTeacherById(tid)})
+
+
+
+# query teacher info by name
+@rest.route('teachers/teacherinfo/<name>', methods=['GET'])
+#@jwt_required()
+def get_teacherinfosByName(name):
+    teacherinfos = TeacherModel.GetTeacherInfosByName(name)
+    return utils.jsonresp(jsonobj={'teacherinfos':teacherinfos})
 
 # create one teacher
 @rest.route('teachers/', methods=['POST'])

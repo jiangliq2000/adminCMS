@@ -28,13 +28,17 @@ class Student(object):
         self.name = f.name()
         self.nickname = f.user_name()
         self.sex = f.random_int(min=1, max=2)
+        self.province = f.province()
+        self.city = f.city_suffix()
+        self.country = f.country()        
         self.urgent_contactor = f.name()
         self.urgent_mobile = f.phone_number()
         self.birthday = f.date()
         self.education = f.word()
         self.image_url = f.image_url()
         self.mentor_id = f.user_name()
-        self.c_time = f.date_time()        
+        self.detailed = f.word()
+        self.createtime = f.date_time()        
         self.status = 1
 
 	

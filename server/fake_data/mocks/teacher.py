@@ -30,15 +30,16 @@ class Teacher(object):
         self.nickname = f.user_name()
         self.sex = f.random_int(min=1, max=2)
         self.province = f.province()
-        self.mobile = f.phone_number()
         self.city = f.city_suffix()
         self.country = f.country()
         self.address = f.street_address()
+        self.mobile = f.phone_number()
+        self.email = f.email()
         self.birthday = f.date()
         self.education = f.word()
         self.school_id = f.random_digit()
         self.image_url = f.image_url()
-        self.c_time = f.date_time()        
+        self.createtime = f.date_time()        
         self.status = 1
 
 	

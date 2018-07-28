@@ -34,6 +34,22 @@ def get_student(uid):
         students.append(student)
     return utils.jsonresp(jsonobj={'students':students})
 
+# query one or multi student
+@rest.route('students/stdinfo/<sname>', methods=['GET'])
+@jwt_required()
+def GetStudentsInfoByName(sname):
+    stdInfos = StudentModel.GetStudentsInfoByName(sname)
+    return utils.jsonresp(jsonobj={'stdinfos':stdInfos})
+
+
+# query one student info by ID
+@rest.route('students/stdinfo/id/<sid>', methods=['GET'])
+@jwt_required()
+def GetStudentsInfoById(sid):
+    stdInfos = StudentModel.GetStdInfoById(sid)
+    return utils.jsonresp(jsonobj={'stdinfos':stdInfos})
+
+
 # create one student
 @rest.route('students/', methods=['POST'])
 @jwt_required()
@@ -47,12 +63,7 @@ def create_student():
 @rest.route('students/<uid>', methods=['PUT'])
 @jwt_required()
 def update_student(uid):
-    print(datetime.datetime.now())
-    print('request put request')
-    print(datetime.datetime.now())
     data = request.get_json(force=True) 
-    print(datetime.datetime.now())
-    print(data)
     #dataDict = utils.str_to_dict(rm.get_dict())
     errcode = StudentModel.UpdateStudentByUid(data)
 

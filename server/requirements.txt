@@ -2,5 +2,6 @@ peewee
 pymysql
 flask
 flask-JWT
+flask-script
 faker
 flask_login

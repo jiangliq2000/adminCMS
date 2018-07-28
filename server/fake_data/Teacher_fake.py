@@ -14,8 +14,8 @@ STATUS_INVALID = 0
 
 
 
-db = MySQLDatabase(host='192.168.163.128', user='root', passwd='1', database='test', charset='utf8')
-
+#db = MySQLDatabase(host='192.168.163.128', user='root', passwd='1', database='test', charset='utf8')
+db = MySQLDatabase(host='sh-cdb-j421jq38.sql.tencentcdb.com', port=63471,  user='root', passwd='Joyfulkid123', database='joy_userdb', charset='utf8')
 
 class BaseModel(Model):
     class Meta:
@@ -32,7 +32,7 @@ class BaseModel(Model):
         return json.dumps(r, ensure_ascii=False)
 
 
-# 学生管理
+# 教师管理
 class Teacher(BaseModel):
     class Meta:
         db_table = 'teacher' 
@@ -42,16 +42,17 @@ class Teacher(BaseModel):
     options = CharField()
     nickname = CharField()
     sex  = IntegerField() 
-    mobile = CharField()
     province = CharField()
     city = CharField()
     country = CharField()
     address = CharField()
+    mobile = CharField()
+    email = CharField()    
     birthday = DateField(default='1970-01-01')
     education = CharField()
     school_id = IntegerField()
     image_url = CharField()
-    c_time = DateTimeField()
+    createtime = DateTimeField()
     status = IntegerField(default=STATUS_VALID)
 
 
@@ -125,7 +126,7 @@ def DeleteTeacherById(Teacherid):
 if __name__ == '__main__':
     
     create_table()
-    for i in range(25):
+    for i in range(3):
         InsertTeacher()
     """
     #InsertTeacher()

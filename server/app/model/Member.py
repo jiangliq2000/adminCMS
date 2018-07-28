@@ -19,13 +19,14 @@ class Member(Base.BaseModel):
     nickname = CharField(unique=True) # 会员id
     name = CharField()           # 会员姓名
     sex  = IntegerField()        # 性别
-    #address = CharField()
+    address = CharField()
     province = CharField(default='上海')
     city = CharField(default='上海')
     country = CharField(default='中国')
     wxunionid = CharField(default='0000')
-    memtype = IntegerField()
+    memtype = IntegerField(default=1)
     mobile = CharField()
+    othermobiles = CharField()
     email = CharField()
     birthday = DateField(default='1970-01-01')
     education = CharField()
@@ -40,6 +41,7 @@ class Member(Base.BaseModel):
     balance = DecimalField(max_digits=10, decimal_places=2)
     school_id = IntegerField()
     inviter_id = IntegerField()
+    source = IntegerField()
     status = IntegerField(default=STATUS_VALID)
 
 
